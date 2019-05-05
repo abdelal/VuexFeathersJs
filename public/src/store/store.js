@@ -1,16 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import feathersVuex from 'feathers-vuex'
-import feathersClient from '../feathers-client'
+import feathersVuex from 'feathers-vuex';
+import feathersClient from '../feathers-client';
 
-const { FeathersVuex } = feathersVuex(feathersClient, { idField: '_id' })
+const { FeathersVuex } = feathersVuex(feathersClient, { idField: '_id' });
 
 Vue.use(Vuex);
-Vue.use(FeathersVuex)
-const productsService = feathersClient.service('products')
+Vue.use(FeathersVuex);
+const productsService = feathersClient.service('products');
 
 
 export const store = new Vuex.Store({
+    strict: true,
     state: {
         products: []
 
@@ -18,7 +19,6 @@ export const store = new Vuex.Store({
     getters: {
         getProducts: state => {
             return state.products;
-
         },
         sale: state => {
             var sale = state.products.map(product => {
@@ -39,24 +39,17 @@ export const store = new Vuex.Store({
 
         },
         addProduct: (state, payload) => {
+            console.log("product with id " + payload._id + " was added ")
+            state.products.push(payload);
 
-            if (!payload.name == "" && !payload.price == "" && !isNaN(payload.price) && !state.products.includes(payload)) {
-                productsService.create(payload).then(data => {
-                    state.products.push(data)
-
-                })
-            }
         },
         fetchProducts: (state, payload) => {
-            productsService.find({}).then(data => {
-                state.products = data.data;
-            })
+            console.log("fetching products from the server...")
+            state.products = payload.data;
         },
         removeProduct: (state, payload) => {
-            productsService.remove(payload._id).then(data => {
-                state.products.splice(payload.index, 1)
-
-            })
+            console.log("product with id " + payload._id + " was added ")
+            state.products.splice(payload.index, 1);
         }
     },
     actions: {
@@ -66,13 +59,22 @@ export const store = new Vuex.Store({
             }, 2000);
         },
         addProduct: (context, payload) => {
-            context.commit('addProduct', payload);
+            if (!payload.name == "" && !payload.price == "" && !isNaN(payload.price) && !context.state.products.includes(payload)) {
+                productsService.create(payload).then(data => {
+                    context.commit('addProduct', data);
+                })
+            }
         },
         fetchProducts: (context, payload) => {
-            context.commit('fetchProducts', payload);
+            productsService.find({}).then(data => {
+                context.commit('fetchProducts', data);
+            })
         },
+
         removeProduct: (context, payload) => {
-            context.commit('removeProduct', payload);
+            productsService.remove(payload._id).then(data => {
+                context.commit('removeProduct', payload);
+            })
         },
     }
 })

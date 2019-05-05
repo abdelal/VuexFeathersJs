@@ -1,5 +1,5 @@
 <template>
-<dev id="product-list">
+<div id="product-list">
     <v-layout>
         <v-flex xs12 md5 offset-sm3>
             <v-card>
@@ -31,7 +31,7 @@
             </v-card>
         </v-flex>
     </v-layout>
-</dev>
+</div>
 </template>
 
 <script>
@@ -70,10 +70,6 @@ export default {
 #closeIcon {
     padding: 10px 10px;
     border-radius: 50%;
-}
-
-#productName {
-    color: rgb(255, 7, 7);
 }
 
 #priceTag {
