@@ -29,7 +29,7 @@ The main page contains a List of items , you can add items , and delete them , V
 # client !
   client files are in the public folder 
   to build 
-  -     ```
+ -  ```
     cd path/to/server
     ```
   - run 
