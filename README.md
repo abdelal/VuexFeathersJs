@@ -6,6 +6,8 @@ i wrote this project while learning Vuex
 ## About
 
 for server [FeathersJs](https://feathersjs.com/) is used . An open source web framework for building modern real-time applications.
+
+
 for front end [Vue](https://vuejs.org/), [Vuex](https://vuex.vuejs.org/) and [Vuetify](https://vuetifyjs.com/en/) were used 
 
 
